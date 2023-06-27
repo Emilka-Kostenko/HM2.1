@@ -1,108 +1,119 @@
-#include <iostream>
-#include <iostream>
-
+﻿#include <iostream>
 using namespace std;
 
-class String
+class MyString
 {
 public:
-	String()
-	{
-		this->stroka = new char[80];
+    MyString() // constructor default
+    {
+        size = 80;
+        cout << endl << "String with max 80 chars was created";
+    }
+    MyString(int size)// constructor with set size
+    {
+        this->size = size;
+        cout << endl << "String with set size was created";
+    }
+    MyString(const char* str) //constructor for setting with initialized string by user 
+    {
 
-		cout << endl << "Constructor default - the string with 80 symbols was created" << this;
+        strcpy_s(this->str, str);
+        this->size = strlen(str);
+    }
+    void printString() //метод вывода
+    {
+        cout << endl;
+        puts(this->str);
+    }
+    
 
-		this->size = 80;
+    void setString( const char*  string)
+    {
+        strcpy_s(this->str, string);
 
-	}
+    }
 
-	~String()
-	{
-		if(stroka != nullptr)
-			delete[]stroka;
+    int length()
+    {
+        int count = 0;
 
-		cout << endl << "Destructor " << this;
-	}
+        for (int i = 0; str[i] != NULL; i++)
+        {
+            count++;
+        }
 
-	String(int size)
-	{
-		this->stroka = new char[size];
-		this->size = size;
-		cout << endl << "Constructor with params - the string with set amount of symbols was created " << this;
-	}
+        return count;
+    }
 
-	String(char stroka[], int size)
-	{
-		this->stroka = stroka;
-		this->size = size;
-	}
+    char startWith()
+    {
+        return str[0];
+    }
 
-	void Print()
-	{
-		cout << stroka;
-	}
 
-	void SetString(char* stroka[])
-	{
-		if (stroka[1] != NULL)
-		{
-			stroka = NULL;
-		}
-		else
-		{
+    char endWith()
+    {
+        return str[this->size - 1];
+    }
 
-		}
+    bool eql(const char* second)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            if (second[i] != str[i])
 
-	}
+                return false;
 
-	String(const String& other)
-	{
-		this->size = other.size;
-		this->stroka = new char[other.size];
 
-		for (int i = 0; i < other.size; i++)
-		{
-			this->stroka[i] = other.stroka[i];
-		}
-	}
 
-	void operator= (const String& other)
-	{
-		this->size = other.size;
-		this->stroka = new char[other.size];
+        }
+    }
+    
+    char* getStr()
+    {
+        return str;
+    }
 
-		for (int i = 0; i < other.size; i++)
-		{
-			this->stroka[i] = other.stroka[i];
-		}
-	}
+    void setStr(const char* str) // changing str to the other str
+    {
+        size = strlen(str);
+        strcpy_s(this->str, str);
+    }
+    
+    int size;
+    char str[255];
 private:
-	char* stroka;
-	int size;
+    
+    
 };
 
 int main()
 {
-	int size = 80;
+    const char* source = "Emil";
+    MyString str1("Hello, World!");
+    cout << " The constructor wich create a string and inicialized it worked succefully ";
+    
+    str1.setString(source); cout << " set string method worked succefully";
+    str1.printString(); cout << " Method of showing string worked succefuly";
 
-	String str();
+    cout << endl << "The Length of str is: " << str1.length();
+    cout << endl << "The string starts with this char: " << str1.startWith();
+    cout << endl << "The string ends with this char: " << str1.endWith();
+    cout << endl << "The string (Hello World) and the string (Emil) are: " << str1.eql( source);
+    
+    char* arr_cpy = new char[str1.size];
 
-	String str1(size);
+    arr_cpy = str1.getStr();
 
-	char intliz_string [80];
+    cout << endl << arr_cpy << " was copied with using method getStr";
 
-	cout << endl << "Enter the string => ";
-	cin >> intliz_string;
+    str1.setStr("Hello World");
+    cout << endl << "The string (Hello World) and the string (Emil) are: " << str1.str;
+     
+   
 
-	String str2(intliz_string, size);
+    
+   
 
-	str2.Print();
-
-	
-	
-	
-
-	
-
-	return 0;
+    return 0;
 }
